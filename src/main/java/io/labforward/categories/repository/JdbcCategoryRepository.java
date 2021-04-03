@@ -3,7 +3,9 @@ package io.labforward.categories.repository;
 import io.labforward.categories.entity.Category;
 import io.labforward.categories.entity.Item;
 import io.labforward.categories.entity.Type;
+import io.labforward.categories.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -56,17 +58,21 @@ public class JdbcCategoryRepository implements CategoryRepository {
 
     @Override
     public Category findCategory(String id) {
-        String query = "SELECT * FROM category WHERE id = ?";
-        return jdbcTemplate.queryForObject(
-                query,
-                (resultSet, rowNumber) -> {
-                    Category category = new Category();
-                    category.setId(resultSet.getLong("id"));
-                    category.setName(resultSet.getString("name"));
-                    return category;
-                },
-                id
-        );
+        try {
+            String query = "SELECT * FROM category WHERE id = ?";
+            return jdbcTemplate.queryForObject(
+                    query,
+                    (resultSet, rowNumber) -> {
+                        Category category = new Category();
+                        category.setId(resultSet.getLong("id"));
+                        category.setName(resultSet.getString("name"));
+                        return category;
+                    },
+                    id
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Category not found");
+        }
     }
 
     @Override

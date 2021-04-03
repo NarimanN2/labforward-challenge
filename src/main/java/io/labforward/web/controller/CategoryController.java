@@ -1,8 +1,10 @@
-package io.labforward.web;
+package io.labforward.web.controller;
 
 import io.labforward.categories.entity.Category;
 import io.labforward.categories.entity.Item;
 import io.labforward.categories.service.CategoryService;
+import io.labforward.web.dto.CategoryJson;
+import io.labforward.web.dto.ItemJson;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/categories")
-    public ResponseEntity createCategory(@RequestBody CategoryJson categoryJson) {
+    public ResponseEntity createCategory(@Valid @RequestBody CategoryJson categoryJson) {
         Category category = modelMapper.map(categoryJson, Category.class);
         category = categoryService.createCategory(category);
         categoryJson = modelMapper.map(category, CategoryJson.class);
@@ -45,7 +48,7 @@ public class CategoryController {
     }
 
     @PostMapping("/categories/{id}/items")
-    public ResponseEntity createItem(@PathVariable("id") String categoryId, @RequestBody ItemJson itemJson) {
+    public ResponseEntity createItem(@PathVariable("id") String categoryId, @Valid @RequestBody ItemJson itemJson) {
         Item item = modelMapper.map(itemJson, Item.class);
         item = categoryService.createItem(categoryId, item);
         itemJson = modelMapper.map(item, ItemJson.class);
@@ -59,7 +62,7 @@ public class CategoryController {
     }
 
     @PutMapping("/categories/{categoryId}/items/{itemId}")
-    public ResponseEntity updateItem(@PathVariable String categoryId, @PathVariable Long itemId, @RequestBody ItemJson itemJson) {
+    public ResponseEntity updateItem(@PathVariable String categoryId, @PathVariable Long itemId, @Valid @RequestBody ItemJson itemJson) {
         Item item = modelMapper.map(itemJson, Item.class);
         item.setId(itemId);
         item = categoryService.updateItem(categoryId, item);
