@@ -79,7 +79,7 @@ PUT /categories/{id}/items/{id}
 ```
 Get all items of a Category:
 ```
-GET /categories/{id}/items/{id}
+GET /categories/{id}/items
 ```
 
 ## Future Improvements
