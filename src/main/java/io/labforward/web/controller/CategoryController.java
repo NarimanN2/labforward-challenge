@@ -41,14 +41,14 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{id}/items")
-    public ResponseEntity findAllItems(@PathVariable("id") String categoryId) {
+    public ResponseEntity findAllItems(@PathVariable("id") Long categoryId) {
         List<Item> items = categoryService.findAllItems(categoryId);
         List<ItemJson> jsonItems = modelMapper.map(items, new TypeToken<List<ItemJson>>() {}.getType());
         return ResponseEntity.ok(jsonItems);
     }
 
     @PostMapping("/categories/{id}/items")
-    public ResponseEntity createItem(@PathVariable("id") String categoryId, @Valid @RequestBody ItemJson itemJson) {
+    public ResponseEntity createItem(@PathVariable("id") Long categoryId, @Valid @RequestBody ItemJson itemJson) {
         Item item = modelMapper.map(itemJson, Item.class);
         item = categoryService.createItem(categoryId, item);
         itemJson = modelMapper.map(item, ItemJson.class);
@@ -62,7 +62,7 @@ public class CategoryController {
     }
 
     @PutMapping("/categories/{categoryId}/items/{itemId}")
-    public ResponseEntity updateItem(@PathVariable String categoryId, @PathVariable Long itemId, @Valid @RequestBody ItemJson itemJson) {
+    public ResponseEntity updateItem(@PathVariable Long categoryId, @PathVariable Long itemId, @Valid @RequestBody ItemJson itemJson) {
         Item item = modelMapper.map(itemJson, Item.class);
         item.setId(itemId);
         item = categoryService.updateItem(categoryId, item);

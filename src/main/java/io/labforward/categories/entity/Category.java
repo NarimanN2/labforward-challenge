@@ -1,14 +1,27 @@
 package io.labforward.categories.entity;
 
-import java.util.Map;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
+@Table(name = "category")
+@NamedEntityGraph(
+        name = "category-with-attributes",
+        attributeNodes = {
+                @NamedAttributeNode("attributes")
+        }
+)
 public class Category {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
-    private Map<String, Type> attributes;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attribute> attributes;
 
     public Long getId() {
         return id;
@@ -26,11 +39,11 @@ public class Category {
         this.name = name;
     }
 
-    public Map<String, Type> getAttributes() {
+    public List<Attribute> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Map<String, Type> attributes) {
+    public void setAttributes(List<Attribute> attributes) {
         this.attributes = attributes;
     }
 }

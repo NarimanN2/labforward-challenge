@@ -1,9 +1,9 @@
 package io.labforward.web.dto;
 
-import io.labforward.web.validation.FieldNames;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.validation.constraints.NotNull;
-import java.util.Map;
+import java.util.List;
 
 public class ItemJson {
 
@@ -12,8 +12,8 @@ public class ItemJson {
     private CategoryJson category;
 
     @NotNull(message = "Attributes are required")
-    @FieldNames(message = "Attribute's name can only contains alphabetical characters and underscore")
-    private Map<String, Object> attributes;
+    @JsonIgnoreProperties(value = "item", allowSetters = true)
+    private List<ValueJson> values;
 
     public Long getId() {
         return id;
@@ -31,11 +31,11 @@ public class ItemJson {
         this.category = category;
     }
 
-    public Map<String, Object> getAttributes() {
-        return attributes;
+    public List<ValueJson> getValues() {
+        return values;
     }
 
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
+    public void setValues(List<ValueJson> values) {
+        this.values = values;
     }
 }

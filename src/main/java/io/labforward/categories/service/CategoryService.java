@@ -9,9 +9,9 @@ public interface CategoryService {
 
     Category createCategory(Category category);
 
-    Item createItem(String categoryId, Item item);
+    Item createItem(Long categoryId, Item item);
 
-    Item updateItem(String categoryId, Item item);
+    Item updateItem(Long categoryId, Item item);
 
-    List<Item> findAllItems(String categoryId);
+    List<Item> findAllItems(Long categoryId);
 }
