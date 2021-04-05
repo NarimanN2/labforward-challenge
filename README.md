@@ -17,7 +17,7 @@ mvn clean package
 After that, You can start the application with:
 
 ```
-java -jar /targer/labforward-challenge-0.0.1-SNAPSHOT.jar
+java -jar /target/labforward-challenge-0.0.1-SNAPSHOT.jar
 ```
 
 ## Examples
