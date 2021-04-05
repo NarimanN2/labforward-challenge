@@ -90,3 +90,5 @@ GET /categories/{id}/items
 1. Validate if attribute belongs to the category when creating an Item
 
 1. More specific type for values
+
+1. Add some tests
